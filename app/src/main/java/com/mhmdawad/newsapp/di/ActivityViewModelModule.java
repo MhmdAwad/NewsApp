@@ -12,12 +12,7 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 
 @Module
-public abstract class ViewModelsModule {
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(HomeViewModel.class)
-    abstract ViewModel bindHomeViewModel(HomeViewModel homeViewModel);
+public abstract class ActivityViewModelModule {
 
     @Binds
     @IntoMap
@@ -28,4 +23,9 @@ public abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(LanguageViewModel.class)
     abstract ViewModel bindLanguageViewModel(LanguageViewModel languageViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HomeViewModel.class)
+    abstract ViewModel bindHomeViewModel(HomeViewModel homeViewModel);
 }

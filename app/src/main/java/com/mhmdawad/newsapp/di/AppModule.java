@@ -1,7 +1,6 @@
 package com.mhmdawad.newsapp.di;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.room.Room;
@@ -11,7 +10,6 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.mhmdawad.newsapp.database.NewsDao;
 import com.mhmdawad.newsapp.database.NewsDatabase;
-import com.mhmdawad.newsapp.di.main.MainScope;
 import com.mhmdawad.newsapp.network.main.MainApi;
 import com.mhmdawad.newsapp.repository.AppRepository;
 import com.mhmdawad.newsapp.utils.Constants;

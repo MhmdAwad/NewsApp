@@ -1,7 +1,6 @@
 package com.mhmdawad.newsapp.di;
 
 import com.mhmdawad.newsapp.di.language.LanguageModule;
-import com.mhmdawad.newsapp.di.language.LanguageScope;
 import com.mhmdawad.newsapp.di.main.MainModule;
 import com.mhmdawad.newsapp.di.main.MainScope;
 import com.mhmdawad.newsapp.di.main.fragment.FragmentMainModule;
@@ -18,10 +17,10 @@ public abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = {
             MainModule.class,
             FragmentMainModule.class,
+
     })
     abstract MainActivity mainActivityInject();
 
-    @LanguageScope
     @ContributesAndroidInjector(
             modules = {
                     LanguageModule.class,

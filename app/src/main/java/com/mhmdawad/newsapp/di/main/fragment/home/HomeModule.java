@@ -16,11 +16,14 @@ import dagger.Provides;
 @Module
 public class HomeModule {
 
+
+    @HomeScope
     @Provides
     static LinearLayoutManager provideLinearLayoutManager(Application application) {
         return new LinearLayoutManager(application, LinearLayoutManager.VERTICAL, false);
     }
 
+    @HomeScope
     @Provides
     static HomeAdapter provideMainAdapter(RequestManager requestManager, @Named("defaultRequestOption") RequestOptions requestOptions) {
         return new HomeAdapter(requestManager,requestOptions);

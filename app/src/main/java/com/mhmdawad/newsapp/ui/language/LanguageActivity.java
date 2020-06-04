@@ -28,6 +28,7 @@ public class LanguageActivity extends DaggerAppCompatActivity implements Recycle
 
     @Inject
     LanguageAdapter adapter;
+
     @Inject
     GridLayoutManager gridLayoutManager;
 
@@ -38,10 +39,6 @@ public class LanguageActivity extends DaggerAppCompatActivity implements Recycle
 
     private ActivityLanguageBinding binding;
     private static final String TAG = "LanguageFragment";
-
-    public LanguageActivity() {
-        Log.d(TAG, "LanguageFragment: WTF !!!!!!!!!!!11");
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

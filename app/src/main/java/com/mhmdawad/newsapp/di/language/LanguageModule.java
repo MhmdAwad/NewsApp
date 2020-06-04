@@ -16,13 +16,12 @@ import dagger.Provides;
 @Module
 public class LanguageModule {
 
-    @LanguageScope
     @Provides
     static GridLayoutManager provideLinearLayoutManager(Application application) {
         return new GridLayoutManager(application, 2);
     }
 
-    @LanguageScope
+
     @Provides
     static LanguageAdapter provideMainAdapter(RequestManager requestManager, @Named("defaultRequestOption") RequestOptions requestOptions) {
         return new LanguageAdapter(requestManager,requestOptions);

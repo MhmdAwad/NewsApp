@@ -17,8 +17,9 @@ import dagger.android.support.AndroidSupportInjectionModule;
                 AndroidSupportInjectionModule.class,
                 AppModule.class,
                 ActivityBuilderModule.class,
-                ViewModelsModule.class,
+                ActivityViewModelModule.class,
                 ViewModelFactoryModule.class
+
 // TODO change fragments viewmodel place from app to main
         }
 )

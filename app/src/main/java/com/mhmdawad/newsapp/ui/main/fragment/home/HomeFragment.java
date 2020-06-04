@@ -46,7 +46,6 @@ public class HomeFragment extends DaggerFragment {
     @Inject
     HomeAdapter adapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
@@ -58,22 +57,21 @@ public class HomeFragment extends DaggerFragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this, providerFactory).get(HomeViewModel.class);
-
         initRecyclerView();
         observeObservers();
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         binding.mainRV.setLayoutManager(layoutManager);
         binding.mainRV.setAdapter(adapter);
     }
 
     private void observeObservers() {
         viewModel.getResponseData().observe(getViewLifecycleOwner(), responseMainResource -> {
-            if(responseMainResource != null) {
+            if (responseMainResource != null) {
                 switch (responseMainResource.status) {
                     case ERROR:
-                        Log.d(TAG, "observeObservers: NO DATA ERROR" );
+                        Log.d(TAG, "observeObservers: NO DATA ERROR");
                         break;
                     case LOADING:
                         Log.d(TAG, "observeObservers: LOADING...");
@@ -85,9 +83,12 @@ public class HomeFragment extends DaggerFragment {
                 }
             }
         });
+    }
 
-        viewModel.getSelectedCountry().observe(getViewLifecycleOwner(), country -> {
-                Log.d(TAG, "observeObservers: " + country.getName());
-        });
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.mainRV.setLayoutManager(null);
+        binding.mainRV.setAdapter(null);
     }
 }
