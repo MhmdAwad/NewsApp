@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">NewsApp</string>
+    <string name="main">Main</string>
+    <string name="search">Search</string>
+    <string name="category">Category</string>
+    <string name="saved">Saved</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change_country">Change Country</string>
 </resources>

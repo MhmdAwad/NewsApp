@@ -1,28 +1,24 @@
 package com.mhmdawad.newsapp.ui.main;
 
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.mhmdawad.newsapp.models.ArticlesItem;
-
-
-import java.util.List;
+import com.mhmdawad.newsapp.repository.AppRepository;
 
 import javax.inject.Inject;
 
 public class MainViewModel extends ViewModel {
 
-    private MainRepository mainRepository;
+
+    private AppRepository appRepository;
 
     @Inject
-    MainViewModel(MainRepository mainRepository) {
-        this.mainRepository = mainRepository;
+    MainViewModel(AppRepository appRepository) {
+        this.appRepository = appRepository;
     }
 
-    LiveData<MainResource<List<ArticlesItem>>> getResponseData(){
-        return mainRepository.getResponseMediatorLiveData();
+    LiveData<String> getCountry(){
+        return appRepository.getSelectedCountryImage();
     }
-
 
 }

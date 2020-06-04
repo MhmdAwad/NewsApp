@@ -3,7 +3,6 @@ package com.mhmdawad.newsapp.di;
 import android.app.Application;
 
 import com.mhmdawad.newsapp.BaseApplication;
-import com.mhmdawad.newsapp.viewModels.ViewModelProviderFactory;
 
 import javax.inject.Singleton;
 
@@ -18,7 +17,9 @@ import dagger.android.support.AndroidSupportInjectionModule;
                 AndroidSupportInjectionModule.class,
                 AppModule.class,
                 ActivityBuilderModule.class,
+                ViewModelsModule.class,
                 ViewModelFactoryModule.class
+// TODO change fragments viewmodel place from app to main
         }
 )
 public interface AppComponent extends AndroidInjector<BaseApplication> {
