@@ -1,14 +1,11 @@
 package com.mhmdawad.newsapp.ui.main.fragment.home;
 
 
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.mhmdawad.newsapp.models.ArticlesItem;
-import com.mhmdawad.newsapp.models.Country;
 import com.mhmdawad.newsapp.repository.AppRepository;
 import com.mhmdawad.newsapp.ui.main.MainResource;
 
@@ -30,5 +27,8 @@ public class HomeViewModel extends ViewModel {
         return appRepository.getResponseMediatorLiveData();
     }
 
+    void fetchData(){
+        appRepository.fetchData();
+    }
 
 }

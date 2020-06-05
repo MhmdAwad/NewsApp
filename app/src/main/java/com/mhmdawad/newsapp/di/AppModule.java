@@ -7,6 +7,7 @@ import androidx.room.Room;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
 import com.mhmdawad.newsapp.database.NewsDao;
 import com.mhmdawad.newsapp.database.NewsDatabase;
@@ -67,7 +68,7 @@ public class AppModule {
     @Singleton
     @Named("defaultRequestOption")
     static RequestOptions provideNonCircleRequestOptions(){
-        return RequestOptions.centerInsideTransform();
+        return RequestOptions.centerInsideTransform().format(DecodeFormat.PREFER_RGB_565);
     }
 
     @Provides

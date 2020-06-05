@@ -23,7 +23,6 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerAppCompatActivity;
 
 
-
 public class LanguageActivity extends DaggerAppCompatActivity implements RecyclerViewClickListener {
 
     @Inject
@@ -36,15 +35,13 @@ public class LanguageActivity extends DaggerAppCompatActivity implements Recycle
     ViewModelProviderFactory providerFactory;
 
     private LanguageViewModel viewModel;
-
     private ActivityLanguageBinding binding;
-    private static final String TAG = "LanguageFragment";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_language);
-
+        binding.setLifecycleOwner(this);
         viewModel = new ViewModelProvider(this, providerFactory).get(LanguageViewModel.class);
         initRecyclerView();
         viewsListener();
@@ -60,11 +57,10 @@ public class LanguageActivity extends DaggerAppCompatActivity implements Recycle
         binding.languageRV.setAdapter(adapter);
     }
 
-
     @Override
     public void onCountryChanged(Country country) {
-        Log.d(TAG, "onCountryChanged: " + country.getName());
         viewModel.changeCountry(country);
         finish();
     }
+
 }

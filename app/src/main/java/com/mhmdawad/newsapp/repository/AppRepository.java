@@ -31,6 +31,7 @@ public class AppRepository {
     private NewsDao newsDao;
     private SharedPreferences.Editor editor;
     private SharedPreferences preferences;
+    private MutableLiveData<String> countryImage = new MutableLiveData<>();
 
     @Inject
     public AppRepository(MainApi mainApi, CompositeDisposable disposable, NewsDao newsDao,SharedPreferences.Editor editor,
@@ -40,9 +41,6 @@ public class AppRepository {
         this.newsDao = newsDao;
         this.editor = editor;
         this.preferences = preferences;
-
-        getCountryImage();
-        fetchFromApi();
     }
 
     public LiveData<MainResource<List<ArticlesItem>>> getResponseMediatorLiveData() {
@@ -57,8 +55,6 @@ public class AppRepository {
             return "us";
         }
     }
-
-    private MutableLiveData<String> countryImage = new MutableLiveData<>();
 
     private void getCountryImage() {
         String image = preferences.getString(Constants.COUNTRY_PREFS_IMAGE,
@@ -97,6 +93,10 @@ public class AppRepository {
         newsDao.insertArticles(response.getArticles());
     }
 
+    public void fetchData(){
+        fetchFromApi();
+        getCountryImage();
+    }
 
     private void fetchFromApi() {
         responseMediatorLiveData.setValue(MainResource.loading(null));
@@ -110,10 +110,6 @@ public class AppRepository {
                                 }, throwable -> fetchFromDB()
                         )
         );
-    }
-
-    public void clearDisposable() {
-        disposable.clear();
     }
 
 }

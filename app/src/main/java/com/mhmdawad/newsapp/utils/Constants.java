@@ -2,9 +2,12 @@ package com.mhmdawad.newsapp.utils;
 
 import com.mhmdawad.newsapp.models.Country;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Constants {
 
@@ -17,6 +20,12 @@ public class Constants {
     public static final String COUNTRY_PREFS_IMAGE = "countryImage";
 
 
+    public static String getTodayDate(){
+        SimpleDateFormat day = new SimpleDateFormat("EEEE", Locale.getDefault());
+        SimpleDateFormat month = new SimpleDateFormat("MMMM dd", Locale.getDefault());
+        Date d = new Date();
+        return day.format(d) +", "+ month.format(d);
+    }
     public static List<Country> getCountries(){
         List<Country> countryList = new ArrayList<>();
         countryList.add(new Country("no","Norway","https://cdn.countryflags.com/thumbs/norway/flag-400.png"));

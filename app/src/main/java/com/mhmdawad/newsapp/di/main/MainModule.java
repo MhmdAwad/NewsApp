@@ -1,5 +1,7 @@
 package com.mhmdawad.newsapp.di.main;
 
+
+
 import dagger.Module;
 
 @Module

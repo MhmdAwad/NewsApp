@@ -18,12 +18,13 @@ import dagger.android.support.AndroidSupportInjectionModule;
                 AppModule.class,
                 ActivityBuilderModule.class,
                 ActivityViewModelModule.class,
-                ViewModelFactoryModule.class
+                ViewModelFactoryModule.class,
 
 // TODO change fragments viewmodel place from app to main
         }
 )
 public interface AppComponent extends AndroidInjector<BaseApplication> {
+
 
     @Component.Builder
     interface Builder {

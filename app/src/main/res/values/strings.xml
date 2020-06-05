@@ -8,4 +8,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="change_country">Change Country</string>
+    <string name="top_news">Top News</string>
+    <string name="can_t_get_data_check_your_internet_connection_and">Can\'t get data, check your internet connection and</string>
+    <string name="try_again">Try Again</string>
 </resources>

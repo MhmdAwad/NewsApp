@@ -8,11 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.mhmdawad.newsapp.R;
+import com.mhmdawad.newsapp.databinding.RvMainLayoutBinding;
 import com.mhmdawad.newsapp.models.ArticlesItem;
 import com.mhmdawad.newsapp.utils.RecyclerViewClickListener;
 
@@ -20,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder> {
 
@@ -34,17 +35,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
         this.requestOptions = requestOptions;
     }
 
-
     @NonNull
     @Override
     public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MainViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_main_layout, parent, false));
+        return new MainViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.rv_main_layout, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {
-        holder.articleTitle.setText(articlesList.get(position).getTitle());
-        requestManager.setDefaultRequestOptions(requestOptions).load(articlesList.get(position).getUrlToImage()).into(holder.articleImage);
+        holder.bind(articlesList.get(position));
     }
 
     @Override
@@ -59,12 +59,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
     }
 
     public class MainViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView articleTitle;
-        ImageView articleImage;
-        public MainViewHolder(@NonNull View itemView) {
-            super(itemView);
-            articleImage = itemView.findViewById(R.id.articleImage);
-            articleTitle = itemView.findViewById(R.id.articleTitle);
+        private RvMainLayoutBinding binding;
+        MainViewHolder(@NonNull RvMainLayoutBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+        }
+
+        void bind(ArticlesItem article){
+            binding.setArticlesItem(article);
+            binding.setRequestManage(requestManager.setDefaultRequestOptions(requestOptions));
+            binding.executePendingBindings();
         }
 
         @Override
