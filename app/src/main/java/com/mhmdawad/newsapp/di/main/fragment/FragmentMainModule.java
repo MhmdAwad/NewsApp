@@ -20,7 +20,6 @@ public abstract class FragmentMainModule {
     @ContributesAndroidInjector(
             modules = {
                     HomeModule.class,
-
             }
     )
     abstract HomeFragment homeFragment();

@@ -1,5 +1,7 @@
 package com.mhmdawad.newsapp.models;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -111,4 +113,17 @@ public class ArticlesItem{
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
+
+
+	public static final DiffUtil.ItemCallback<ArticlesItem> CALLBACK = new DiffUtil.ItemCallback<ArticlesItem>() {
+		@Override
+		public boolean areItemsTheSame(@NonNull ArticlesItem articlesItem, @NonNull ArticlesItem articlesItem2) {
+			return articlesItem.getUid() == articlesItem2.getUid();
+		}
+
+		@Override
+		public boolean areContentsTheSame(@NonNull ArticlesItem articlesItem, @NonNull ArticlesItem articlesItem2) {
+			return true;
+		}
+	};
 }

@@ -7,12 +7,7 @@
         <variable
             name="date"
             type="String" />
-        <variable
-            name="flagUrl"
-            type="String" />
-        <variable
-            name="reqManager"
-            type="com.bumptech.glide.RequestManager" />
+
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,17 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/flagImage" />
 
-        <ImageView
-            android:id="@+id/flagImage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/black_circle"
-            android:layout_marginEnd="8dp"
-            loadCircleImage="@{flagUrl}"
-            reqCircleManager="@{reqManager}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/mainBottomNav"

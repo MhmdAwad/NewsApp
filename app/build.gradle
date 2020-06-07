@@ -89,8 +89,14 @@ dependencies {
 
     // RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    // CardView
     implementation 'androidx.cardview:cardview:1.0.0'
+    // Material
     implementation 'com.google.android.material:material:1.1.0'
+
+    // Paging
+    def paging_version = '1.0.1'
+    implementation "android.arch.paging:runtime:$paging_version"
 
     // Facebook Shimmer
     def shimmer_version = '0.5.0'

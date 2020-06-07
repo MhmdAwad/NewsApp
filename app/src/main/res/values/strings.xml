@@ -11,4 +11,6 @@
     <string name="top_news">Top News</string>
     <string name="can_t_get_data_check_your_internet_connection_and">Can\'t get data, check your internet connection and</string>
     <string name="try_again">Try Again</string>
+    <string name="flagImage">flagImage</string>
+    <string name="image_not_found">Image Not Found!</string>
 </resources>

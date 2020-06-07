@@ -1,17 +1,22 @@
 package com.mhmdawad.newsapp.di;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.util.Log;
 
+import androidx.paging.PagedList;
 import androidx.room.Room;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
 import com.mhmdawad.newsapp.database.NewsDao;
 import com.mhmdawad.newsapp.database.NewsDatabase;
 import com.mhmdawad.newsapp.network.main.MainApi;
+
 import com.mhmdawad.newsapp.repository.AppRepository;
 import com.mhmdawad.newsapp.utils.Constants;
 
@@ -57,19 +62,13 @@ public class AppModule {
                 .build();
     }
 
-    @Provides
+
     @Singleton
-    @Named("circleRequestOption")
-    static RequestOptions provideCircleRequestOptions(){
-        return RequestOptions.circleCropTransform();
+    @Provides
+    static CompositeDisposable provideDisposable() {
+        return new CompositeDisposable();
     }
 
-    @Provides
-    @Singleton
-    @Named("defaultRequestOption")
-    static RequestOptions provideNonCircleRequestOptions(){
-        return RequestOptions.centerInsideTransform().format(DecodeFormat.PREFER_RGB_565);
-    }
 
     @Provides
     @Singleton
@@ -96,12 +95,6 @@ public class AppModule {
     static SharedPreferences provideSharedPref(Application application){
         return application.getSharedPreferences(Constants.COUNTRY_PREFS, MODE_PRIVATE);
     }
-    @Singleton
-    @Provides
-    static AppRepository mainRepositoryInject(MainApi mainApi, CompositeDisposable disposable, NewsDao newsDao, SharedPreferences preferences
-    ,SharedPreferences.Editor editor) {
-        return new AppRepository(mainApi, disposable, newsDao,editor, preferences);
-    }
 
     @Singleton
     @Provides
@@ -109,16 +102,36 @@ public class AppModule {
         return retrofit.create(MainApi.class);
     }
 
-    @Singleton
-    @Provides
-    static CompositeDisposable provideDisposable() {
-        return new CompositeDisposable();
-    }
+
 
     @Singleton
     @Provides
     static NewsDao provideNewsDao(NewsDatabase database) {
         return database.newsDao();
     }
+
+    @Provides
+    @Singleton
+    @Named("circleRequestOption")
+    static RequestOptions provideCircleRequestOptions() {
+        return RequestOptions.circleCropTransform();
+    }
+
+    @Provides
+    @Singleton
+    static ConnectivityManager connectivityManager(Application application){
+        return (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
+    }
+
+
+
+    @Singleton
+    @Provides
+    static AppRepository mainRepositoryInject(MainApi mainApi, CompositeDisposable disposable, NewsDao newsDao, SharedPreferences preferences
+            , SharedPreferences.Editor editor) {
+        return new AppRepository(mainApi, disposable, newsDao, editor, preferences );
+    }
+
+
 
 }

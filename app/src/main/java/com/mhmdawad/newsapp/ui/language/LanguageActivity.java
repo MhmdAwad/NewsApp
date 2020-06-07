@@ -1,5 +1,7 @@
 package com.mhmdawad.newsapp.ui.language;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -57,10 +59,17 @@ public class LanguageActivity extends DaggerAppCompatActivity implements Recycle
         binding.languageRV.setAdapter(adapter);
     }
 
+    private void selectCountry(){
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+
     @Override
     public void onCountryChanged(Country country) {
         viewModel.changeCountry(country);
-        finish();
+        selectCountry();
     }
 
 }
