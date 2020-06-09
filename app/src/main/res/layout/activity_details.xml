@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="article"
+            type="com.mhmdawad.newsapp.models.ArticlesItem" />
+
+        <variable
+            name="reqManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
+            name="viewModel"
+            type="com.mhmdawad.newsapp.ui.details.DetailsViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.details.DetailsActivity">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageViewContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:elevation="10dp"
+            app:cardCornerRadius="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/articleDate">
+
+            <ImageView
+                loadImage="@{article.urlToImage}"
+                reqManager="@{reqManager}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="250dp"
+                android:scaleType="centerCrop"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewContainer"
+            app:layout_constraintVertical_bias="0.25">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="@+id/articleDescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/articleDescription" />
+
+                <TextView
+                    android:id="@+id/articleDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:onClick="@{()-> viewModel.openArticleWebView() }"
+                    android:text="@{article.description + `.... More`}"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/saveArticle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <ImageButton
+                    android:id="@+id/saveArticle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginEnd="16sp"
+                    android:background="@null"
+                    android:padding="8dp"
+                    android:onClick="@{ ()-> viewModel.saveArticle(article)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/shareArticle"/>
+
+                <ImageButton
+                    android:id="@+id/shareArticle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@null"
+                    android:onClick="@{ ()-> viewModel.shareArticle()}"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_share"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/articleTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{article.title}"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:onClick="@{() -> viewModel.closeArticle()}"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/articleDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            dateFormat="@{article.publishedAt}"
+            app:layout_constraintEnd_toEndOf="@+id/articleTitle"
+            app:layout_constraintStart_toStartOf="@+id/articleTitle"
+            app:layout_constraintTop_toBottomOf="@+id/articleTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
