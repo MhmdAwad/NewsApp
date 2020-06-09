@@ -4,18 +4,19 @@
 
     <data>
         <variable
-            name="countryName"
-            type="String" />
-        <variable
-            name="countryImage"
-            type="String" />
+            name="country"
+            type="com.mhmdawad.newsapp.models.Country" />
         <variable
             name="reqManager"
             type="com.bumptech.glide.RequestManager" />
+        <variable
+            name="languageViewModel"
+            type="com.mhmdawad.newsapp.ui.language.LanguageViewModel" />
     </data>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:onClick="@{()-> languageViewModel.changeCountry(country) }"
     android:gravity="center">
 
     <androidx.cardview.widget.CardView
@@ -34,7 +35,7 @@
                 android:id="@+id/countryImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                loadImage="@{countryImage}"
+                loadImage="@{country.image}"
                 reqManager="@{reqManager}"
                 android:background="@drawable/black_circle"
                 android:layout_marginStart="8dp"
@@ -44,7 +45,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/countryName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/flagImage" />
 
             <TextView
                 android:id="@+id/countryName"
@@ -57,7 +59,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textStyle="bold"
-                android:text="@{countryName}"
+                android:text="@{country.name}"
                 android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

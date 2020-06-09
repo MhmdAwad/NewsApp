@@ -2,21 +2,17 @@ package com.mhmdawad.newsapp.ui.language;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.util.Log;
-
 import com.mhmdawad.newsapp.R;
 import com.mhmdawad.newsapp.databinding.ActivityLanguageBinding;
-import com.mhmdawad.newsapp.models.Country;
-import com.mhmdawad.newsapp.utils.Constants;
-import com.mhmdawad.newsapp.utils.RecyclerViewClickListener;
+import com.mhmdawad.newsapp.ui.main.MainRepository;
 import com.mhmdawad.newsapp.viewModels.ViewModelProviderFactory;
 
 
@@ -25,7 +21,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerAppCompatActivity;
 
 
-public class LanguageActivity extends DaggerAppCompatActivity implements RecyclerViewClickListener {
+public class LanguageActivity extends DaggerAppCompatActivity  {
 
     @Inject
     LanguageAdapter adapter;
@@ -36,8 +32,8 @@ public class LanguageActivity extends DaggerAppCompatActivity implements Recycle
     @Inject
     ViewModelProviderFactory providerFactory;
 
-    private LanguageViewModel viewModel;
     private ActivityLanguageBinding binding;
+    private LanguageViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +43,7 @@ public class LanguageActivity extends DaggerAppCompatActivity implements Recycle
         viewModel = new ViewModelProvider(this, providerFactory).get(LanguageViewModel.class);
         initRecyclerView();
         viewsListener();
+        observeObservers();
     }
 
     private void viewsListener(){
@@ -55,21 +52,21 @@ public class LanguageActivity extends DaggerAppCompatActivity implements Recycle
 
     private void initRecyclerView() {
         binding.languageRV.setLayoutManager(gridLayoutManager);
-        adapter.addListener(this);
+        adapter.setViewModel(viewModel);
         binding.languageRV.setAdapter(adapter);
     }
 
-    private void selectCountry(){
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+    private void observeObservers(){
+        viewModel.getIsCountryChanged().observe(this, isCountryChanged -> {
+            if(isCountryChanged)
+                returnCountryChanged();
+        });
     }
 
-
-    @Override
-    public void onCountryChanged(Country country) {
-        viewModel.changeCountry(country);
-        selectCountry();
+    private void returnCountryChanged(){
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK,returnIntent);
+        finish();
     }
 
 }

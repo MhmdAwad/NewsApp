@@ -1,4 +1,4 @@
-package com.mhmdawad.newsapp.repository;
+package com.mhmdawad.newsapp.ui.main;
 
 
 import android.content.SharedPreferences;
@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.mhmdawad.newsapp.database.NewsDao;
 import com.mhmdawad.newsapp.models.ArticlesItem;
-import com.mhmdawad.newsapp.models.Country;
 import com.mhmdawad.newsapp.models.Response;
 import com.mhmdawad.newsapp.network.main.MainApi;
 import com.mhmdawad.newsapp.utils.Constants;
@@ -24,26 +23,29 @@ import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class AppRepository {
-
+public class MainRepository {
 
     private MainApi mainApi;
     private CompositeDisposable disposable;
     private NewsDao newsDao;
-    private SharedPreferences.Editor editor;
     private SharedPreferences preferences;
-    private MutableLiveData<String> countryImage = new MutableLiveData<>();
+    private MutableLiveData<String> countryImage ;
+    private MutableLiveData<ArticlesItem> articleDetails;
 
     @Inject
-    public AppRepository(MainApi mainApi, CompositeDisposable disposable, NewsDao newsDao,
-                         SharedPreferences.Editor editor, SharedPreferences preferences) {
+    public MainRepository(MainApi mainApi, CompositeDisposable disposable, NewsDao newsDao,
+                          SharedPreferences preferences) {
         this.mainApi = mainApi;
         this.disposable = disposable;
         this.newsDao = newsDao;
-        this.editor = editor;
         this.preferences = preferences;
+        countryImage = new MutableLiveData<>();
+        articleDetails = new MutableLiveData<>();
     }
 
+    public void openArticleDetails(ArticlesItem articlesItem){
+        articleDetails.setValue(articlesItem);
+    }
 
     private String getSelectedCountryName() {
         try {
@@ -54,22 +56,7 @@ public class AppRepository {
         }
     }
 
-    public void getCountryImage() {
-        String image = preferences.getString(Constants.COUNTRY_PREFS_IMAGE,
-                "https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png");
-        countryImage.setValue(image);
-    }
 
-    public LiveData<String> getSelectedCountryImage() {
-        return countryImage;
-    }
-
-    public void changeCountry(Country country) {
-        editor.putString(Constants.COUNTRY_PREFS_NAME, country.getSmallName());
-        editor.putString(Constants.COUNTRY_PREFS_IMAGE, country.getImage());
-        editor.apply();
-        getCountryImage();
-    }
 
     public void removeDB() {
         disposable.add(
@@ -92,9 +79,26 @@ public class AppRepository {
     }
 
 
-    public Flowable<Response> fetchFromApi(int page) {
-        return mainApi.getTopHead(getSelectedCountryName(), page, 10, Constants.API_KEY)
+    public Flowable<Response> fetchFromApi(int page, int size) {
+        return mainApi.getTopHead(getSelectedCountryName(), page, size, Constants.API_KEY)
+                .timeout(4, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io());
+    }
+
+
+    public MutableLiveData<ArticlesItem> getArticleDetails() {
+        return articleDetails;
+    }
+
+
+    public void getCountryImage() {
+        String image = preferences.getString(Constants.COUNTRY_PREFS_IMAGE,
+                "https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png");
+        countryImage.setValue(image);
+    }
+
+    public LiveData<String> getSelectedCountryImage() {
+        return countryImage;
     }
 
 }

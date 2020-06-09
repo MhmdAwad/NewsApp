@@ -20,7 +20,9 @@ import dagger.android.support.AndroidSupportInjectionModule;
                 ActivityViewModelModule.class,
                 ViewModelFactoryModule.class,
 
+
 // TODO change fragments viewmodel place from app to main
+// TODO make database data show first !
         }
 )
 public interface AppComponent extends AndroidInjector<BaseApplication> {

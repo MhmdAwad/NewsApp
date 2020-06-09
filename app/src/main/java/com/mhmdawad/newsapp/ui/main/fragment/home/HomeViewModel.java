@@ -10,9 +10,9 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import com.mhmdawad.newsapp.models.ArticlesItem;
-import com.mhmdawad.newsapp.paging.api.NewsDataSource;
-import com.mhmdawad.newsapp.paging.api.NewsDataSourceFactory;
-import com.mhmdawad.newsapp.repository.AppRepository;
+import com.mhmdawad.newsapp.paging.NewsDataSource;
+import com.mhmdawad.newsapp.paging.NewsDataSourceFactory;
+import com.mhmdawad.newsapp.ui.main.MainRepository;
 
 import com.mhmdawad.newsapp.utils.DataStatus;
 
@@ -20,15 +20,16 @@ import javax.inject.Inject;
 
 public class HomeViewModel extends ViewModel {
 
-    private AppRepository appRepository;
+    private MainRepository mainRepository;
     private LiveData<PagedList<ArticlesItem>> itemPagedList;
     private NewsDataSourceFactory newsDataSourceFactory;
     private PagedList.Config config;
     private LiveData<DataStatus> newsData;
 
+
     @Inject
-    HomeViewModel(AppRepository appRepository, PagedList.Config config, NewsDataSourceFactory factory) {
-        this.appRepository = appRepository;
+    HomeViewModel(MainRepository mainRepository, PagedList.Config config, NewsDataSourceFactory factory) {
+        this.mainRepository = mainRepository;
         this.newsDataSourceFactory = factory;
         this.config = config;
     }
@@ -43,17 +44,18 @@ public class HomeViewModel extends ViewModel {
             itemPagedList.getValue().getDataSource().invalidate();
         }
     }
+
+    LiveData<ArticlesItem> observeArticleDetails(){
+        return mainRepository.getArticleDetails();
+    }
+
     LiveData<String> getCountry() {
-        appRepository.getCountryImage();
-        return appRepository.getSelectedCountryImage();
+        mainRepository.getCountryImage();
+        return mainRepository.getSelectedCountryImage();
     }
 
     LiveData<DataStatus> getDataStatus() {
         return newsData;
-    }
-
-    LiveData<String> changedCountry() {
-        return appRepository.getSelectedCountryImage();
     }
 
     LiveData<PagedList<ArticlesItem>> getItemPagedList() {

@@ -2,7 +2,6 @@ package com.mhmdawad.newsapp.ui.main.fragment.home;
 
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.mhmdawad.newsapp.R;
 import com.mhmdawad.newsapp.databinding.RvHomeLayoutBinding;
 import com.mhmdawad.newsapp.models.ArticlesItem;
+import com.mhmdawad.newsapp.ui.main.MainRepository;
 
 import javax.inject.Inject;
 
@@ -23,12 +23,14 @@ public class HomeAdapter extends PagedListAdapter<ArticlesItem, HomeAdapter.Main
 
     private RequestManager requestManager;
     private RequestOptions requestOptions;
+    private MainRepository mainRepository;
 
     @Inject
-    public HomeAdapter(RequestManager requestManager, RequestOptions requestOptions) {
+    public HomeAdapter(RequestManager requestManager, RequestOptions requestOptions, MainRepository mainRepository) {
         super(ArticlesItem.CALLBACK);
         this.requestManager = requestManager;
         this.requestOptions = requestOptions;
+        this.mainRepository = mainRepository;
     }
 
     @NonNull
@@ -45,7 +47,7 @@ public class HomeAdapter extends PagedListAdapter<ArticlesItem, HomeAdapter.Main
             holder.bind(getItem(position));
     }
 
-    public class MainViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MainViewHolder extends RecyclerView.ViewHolder {
         private RvHomeLayoutBinding binding;
         MainViewHolder(@NonNull RvHomeLayoutBinding itemView) {
             super(itemView.getRoot());
@@ -55,11 +57,9 @@ public class HomeAdapter extends PagedListAdapter<ArticlesItem, HomeAdapter.Main
         void bind(ArticlesItem article){
             binding.setArticlesItem(article);
             binding.setRequestManage(requestManager.setDefaultRequestOptions(requestOptions));
+            binding.setAppRepo(mainRepository);
             binding.executePendingBindings();
         }
 
-        @Override
-        public void onClick(View v) {
-        }
     }
 }

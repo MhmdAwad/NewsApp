@@ -6,6 +6,7 @@ import android.os.Build;
 
 import com.mhmdawad.newsapp.models.Country;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,8 @@ public class Constants {
     public static final String BASE_URL = "http://newsapi.org/v2/";
     public static final String API_KEY = "8772851a33054823927963e8f314afaf";
     public static final String DATABASE_NAME = "news_database";
-    public static final String TABLE_NAME = "articles_table";
+    public static final String ARTICLES_TABLE_NAME = "articles_table";
+    public static final String SAVED_TABLE_NAME = "saved_table";
     public static final String COUNTRY_PREFS = "countryPref";
     public static final String COUNTRY_PREFS_NAME = "countryName";
     public static final String COUNTRY_PREFS_IMAGE = "countryImage";
@@ -32,6 +34,7 @@ public class Constants {
         Date d = new Date();
         return day.format(d) + ", " + month.format(d);
     }
+
 
 
     public static boolean isConnected(ConnectivityManager connectivityManager) {

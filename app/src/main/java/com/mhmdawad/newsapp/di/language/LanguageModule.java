@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.mhmdawad.newsapp.ui.main.MainRepository;
 import com.mhmdawad.newsapp.ui.language.LanguageAdapter;
 
 import javax.inject.Named;

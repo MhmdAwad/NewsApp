@@ -11,10 +11,14 @@
         <variable
             name="requestManage"
             type="com.bumptech.glide.RequestManager" />
+        <variable
+            name="appRepo"
+            type="com.mhmdawad.newsapp.ui.main.MainRepository" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:onClick="@{()-> appRepo.openArticleDetails(articlesItem)}">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

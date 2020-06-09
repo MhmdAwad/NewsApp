@@ -4,10 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
-import android.util.Log;
-
-import androidx.paging.PagedList;
 import androidx.room.Room;
 
 import com.bumptech.glide.Glide;
@@ -15,9 +11,10 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.mhmdawad.newsapp.database.NewsDao;
 import com.mhmdawad.newsapp.database.NewsDatabase;
+import com.mhmdawad.newsapp.database.saved.SavedDao;
 import com.mhmdawad.newsapp.network.main.MainApi;
 
-import com.mhmdawad.newsapp.repository.AppRepository;
+import com.mhmdawad.newsapp.ui.main.MainRepository;
 import com.mhmdawad.newsapp.utils.Constants;
 
 import javax.inject.Named;
@@ -51,7 +48,8 @@ public class AppModule {
     @Singleton
     @Provides
     static HttpLoggingInterceptor provideOkHttpInterceptor (){
-        return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+        return new HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 
     @Singleton
@@ -61,7 +59,6 @@ public class AppModule {
                 .addInterceptor(logging)
                 .build();
     }
-
 
     @Singleton
     @Provides
@@ -103,6 +100,11 @@ public class AppModule {
     }
 
 
+    @Singleton
+    @Provides
+    static SavedDao provideSavedDao(NewsDatabase database) {
+        return database.savedDao();
+    }
 
     @Singleton
     @Provides
@@ -122,16 +124,6 @@ public class AppModule {
     static ConnectivityManager connectivityManager(Application application){
         return (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
-
-
-
-    @Singleton
-    @Provides
-    static AppRepository mainRepositoryInject(MainApi mainApi, CompositeDisposable disposable, NewsDao newsDao, SharedPreferences preferences
-            , SharedPreferences.Editor editor) {
-        return new AppRepository(mainApi, disposable, newsDao, editor, preferences );
-    }
-
 
 
 }

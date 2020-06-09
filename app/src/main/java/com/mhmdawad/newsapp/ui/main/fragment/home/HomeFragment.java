@@ -1,5 +1,6 @@
 package com.mhmdawad.newsapp.ui.main.fragment.home;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.mhmdawad.newsapp.R;
 import com.mhmdawad.newsapp.databinding.FragmentHomeBinding;
+import com.mhmdawad.newsapp.models.ArticlesItem;
 import com.mhmdawad.newsapp.ui.language.LanguageActivity;
+import com.mhmdawad.newsapp.ui.details.DetailsActivity;
 import com.mhmdawad.newsapp.utils.Constants;
 import com.mhmdawad.newsapp.viewModels.ViewModelProviderFactory;
 
@@ -40,20 +44,15 @@ public class HomeFragment extends DaggerFragment {
 
     @Inject
     ViewModelProviderFactory providerFactory;
-
     @Inject
     LinearLayoutManager layoutManager;
-
     @Inject
     HomeAdapter adapter;
-
     @Named("circleRequestOption")
     @Inject
     RequestOptions requestOptions;
-
     @Inject
     RequestManager requestManager;
-
     @Inject
     ConnectivityManager connectivityManager;
 
@@ -81,17 +80,6 @@ public class HomeFragment extends DaggerFragment {
         observeObservers();
         changeFlag();
         binding.flagImage.setOnClickListener(this::changeLanguage);
-
-    }
-
-    private void changeLanguage(View view) {
-        if(Constants.isConnected(connectivityManager)){
-            Intent intent = new Intent(getActivity(), LanguageActivity.class);
-            startActivityForResult(intent, 101);
-        } else{
-            Snackbar.make(view, "You are offline", Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(Color.RED).show();
-        }
     }
 
     private void changeFlag() {
@@ -101,10 +89,12 @@ public class HomeFragment extends DaggerFragment {
             binding.executePendingBindings();
         });
     }
+
     private void initRefreshListeners(){
         binding.swipeRefresh.setOnRefreshListener(() -> viewModel.refreshData());
         binding.tryAgain.setOnClickListener(v -> viewModel.refreshData());
     }
+
     private void initRecyclerView() {
         binding.mainRV.setLayoutManager(layoutManager);
         binding.mainRV.setAdapter(adapter);
@@ -119,8 +109,8 @@ public class HomeFragment extends DaggerFragment {
         binding.shimmerLayout.setVisibility(View.GONE);
     }
 
-
     private void observeObservers() {
+
         viewModel.getItemPagedList().observe(getViewLifecycleOwner(), articlesItems -> {
             if(articlesItems != null) {
                 adapter.submitList(articlesItems);
@@ -148,26 +138,45 @@ public class HomeFragment extends DaggerFragment {
                 }
             }
         });
+
+        viewModel.observeArticleDetails().observe(getViewLifecycleOwner(), articlesItem -> {
+            if(articlesItem != null)
+                openArticleDetails(articlesItem);
+        });
+
     }
 
+    private void openArticleDetails(ArticlesItem articlesItem) {
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("article", articlesItem);
+        startActivity(intent);
+    }
+
+    private void changeLanguage(View view) {
+        if(Constants.isConnected(connectivityManager)){
+            Intent intent = new Intent(getActivity(), LanguageActivity.class);
+            startActivityForResult(intent, 101);
+        } else{
+            Snackbar.make(view, "You are offline", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(Color.RED).show();
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-         if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
-                viewModel.refreshData();
-            }
+        if(resultCode == Activity.RESULT_OK && requestCode == 101) {
+            viewModel.refreshData();
+            changeFlag();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        viewModel.getCountry().removeObservers(getViewLifecycleOwner());
-        viewModel.changedCountry().removeObservers(getViewLifecycleOwner());
         binding.mainRV.setLayoutManager(null);
         binding.mainRV.setAdapter(null);
         adapter.submitList(null);
         binding = null;
-
     }
 }

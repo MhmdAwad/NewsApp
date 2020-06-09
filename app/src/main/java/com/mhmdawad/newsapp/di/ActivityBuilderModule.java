@@ -1,11 +1,14 @@
 package com.mhmdawad.newsapp.di;
 
+import com.mhmdawad.newsapp.di.splash.SplashModule;
+import com.mhmdawad.newsapp.di.splash.SplashScope;
 import com.mhmdawad.newsapp.di.language.LanguageModule;
 import com.mhmdawad.newsapp.di.language.LanguageScope;
 import com.mhmdawad.newsapp.di.main.MainModule;
 import com.mhmdawad.newsapp.di.main.MainScope;
 import com.mhmdawad.newsapp.di.main.fragment.FragmentMainModule;
 import com.mhmdawad.newsapp.di.main.fragment.FragmentViewModelModule;
+import com.mhmdawad.newsapp.ui.details.DetailsActivity;
 import com.mhmdawad.newsapp.ui.main.MainActivity;
 import com.mhmdawad.newsapp.ui.language.LanguageActivity;
 import com.mhmdawad.newsapp.ui.splash.SplashActivity;
@@ -34,9 +37,13 @@ abstract class ActivityBuilderModule {
     abstract LanguageActivity languageActivity();
 
 
-    @ContributesAndroidInjector
+    @SplashScope
+    @ContributesAndroidInjector(modules = SplashModule.class)
     abstract SplashActivity splashActivity();
 
+
+    @ContributesAndroidInjector
+    abstract DetailsActivity detailsActivity();
 
 
 

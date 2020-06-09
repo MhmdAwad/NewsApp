@@ -1,5 +1,8 @@
 package com.mhmdawad.newsapp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.room.ColumnInfo;
@@ -8,12 +11,15 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
+import com.mhmdawad.newsapp.models.converters.SourceConverter;
 import com.mhmdawad.newsapp.utils.Constants;
-import com.mhmdawad.newsapp.utils.SourceConverter;
 
-@Entity(tableName = Constants.TABLE_NAME)
+@Entity(tableName = Constants.ARTICLES_TABLE_NAME)
 @TypeConverters(SourceConverter.class)
-public class ArticlesItem{
+public class ArticlesItem implements Parcelable {
+
+	public ArticlesItem() {
+	}
 
 	@PrimaryKey(autoGenerate = true)
 	private int uid;
@@ -126,4 +132,48 @@ public class ArticlesItem{
 			return true;
 		}
 	};
+
+
+	protected ArticlesItem(Parcel in) {
+		uid = in.readInt();
+		publishedAt = in.readString();
+		author = in.readString();
+		urlToImage = in.readString();
+		description = in.readString();
+		title = in.readString();
+		url = in.readString();
+		content = in.readString();
+	}
+
+	public static final Creator<ArticlesItem> CREATOR = new Creator<ArticlesItem>() {
+		@Override
+		public ArticlesItem createFromParcel(Parcel in) {
+			return new ArticlesItem(in);
+		}
+
+		@Override
+		public ArticlesItem[] newArray(int size) {
+			return new ArticlesItem[size];
+		}
+	};
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(uid);
+		dest.writeString(publishedAt);
+		dest.writeString(author);
+		dest.writeString(urlToImage);
+		dest.writeString(description);
+		dest.writeString(title);
+		dest.writeString(url);
+		dest.writeString(content);
+	}
+
+
+
 }

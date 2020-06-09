@@ -1,17 +1,16 @@
 package com.mhmdawad.newsapp.di.main;
 
 
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
+import android.content.SharedPreferences;
 
 import androidx.paging.PagedList;
 
-import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
-import com.mhmdawad.newsapp.paging.api.NewsDataSource;
-import com.mhmdawad.newsapp.paging.api.NewsDataSourceFactory;
-import com.mhmdawad.newsapp.repository.AppRepository;
+import com.mhmdawad.newsapp.database.NewsDao;
+import com.mhmdawad.newsapp.network.main.MainApi;
+import com.mhmdawad.newsapp.paging.NewsDataSource;
+import com.mhmdawad.newsapp.paging.NewsDataSourceFactory;
+import com.mhmdawad.newsapp.ui.main.MainRepository;
 
 import javax.inject.Named;
 
@@ -24,13 +23,13 @@ public class MainModule {
 
     @Provides
     @MainScope
-    static NewsDataSource provideItemDataSource(CompositeDisposable disposable, AppRepository appRepository) {
-        return new NewsDataSource(disposable, appRepository);
+    static NewsDataSource provideItemDataSource(CompositeDisposable disposable, MainRepository mainRepository) {
+        return new NewsDataSource(disposable, mainRepository);
     }
 
     @Provides
     @MainScope
-    static NewsDataSourceFactory provideDataSourceFactory(CompositeDisposable disposable , AppRepository repository) {
+    static NewsDataSourceFactory provideDataSourceFactory(CompositeDisposable disposable , MainRepository repository) {
         return new NewsDataSourceFactory(repository, disposable);
     }
 
@@ -38,17 +37,23 @@ public class MainModule {
     @MainScope
     @Named("defaultRequestOption")
     static RequestOptions provideNonCircleRequestOptions() {
-        return RequestOptions.centerInsideTransform().override(300, 300);
+        return RequestOptions.centerInsideTransform();
     }
 
     @Provides
     @MainScope
     static PagedList.Config config(){
-        return (new PagedList.Config.Builder())
+        return new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
-                .setPageSize(20).build();
+                .setInitialLoadSizeHint(10)
+                .setPageSize(10)
+                .build();
     }
 
-
+    @MainScope
+    @Provides
+    static MainRepository mainRepositoryInject(MainApi mainApi, CompositeDisposable disposable, NewsDao newsDao, SharedPreferences preferences) {
+        return new MainRepository(mainApi, disposable, newsDao, preferences );
+    }
 
 }

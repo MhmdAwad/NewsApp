@@ -1,7 +1,6 @@
 package com.mhmdawad.newsapp.ui.language;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import com.mhmdawad.newsapp.R;
 import com.mhmdawad.newsapp.databinding.RvLanguageLayoutBinding;
 import com.mhmdawad.newsapp.models.Country;
 import com.mhmdawad.newsapp.utils.Constants;
-import com.mhmdawad.newsapp.utils.RecyclerViewClickListener;
 
 import java.util.List;
 
@@ -26,8 +24,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.Langua
     private List<Country> countryList;
     private RequestManager requestManager;
     private RequestOptions requestOptions;
-    private RecyclerViewClickListener clickListener;
-
+    private LanguageViewModel viewModel;
 
     @Inject
     public LanguageAdapter(RequestManager requestManager, RequestOptions requestOptions) {
@@ -36,9 +33,6 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.Langua
         this.countryList = Constants.getCountries();
     }
 
-    void addListener(RecyclerViewClickListener recyclerViewClickListener){
-        this.clickListener = recyclerViewClickListener;
-    }
     @NonNull
     @Override
     public LanguageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,23 +50,25 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.Langua
         return countryList.size();
     }
 
-    class LanguageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public void setViewModel(LanguageViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    class LanguageViewHolder extends RecyclerView.ViewHolder{
         private RvLanguageLayoutBinding binding;
         LanguageViewHolder(@NonNull RvLanguageLayoutBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-            clickListener.onCountryChanged(countryList.get(getAdapterPosition()));
-        }
         void bind(Country country){
-            binding.setCountryImage(country.getImage());
-            binding.setCountryName(country.getName());
+            binding.setCountry(country);
+            binding.setLanguageViewModel(viewModel);
             binding.setReqManager(requestManager.setDefaultRequestOptions(requestOptions));
             binding.executePendingBindings();
         }
     }
+
+
+
 }

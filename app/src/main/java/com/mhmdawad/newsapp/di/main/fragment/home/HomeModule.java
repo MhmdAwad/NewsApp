@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.mhmdawad.newsapp.ui.main.MainRepository;
 import com.mhmdawad.newsapp.ui.main.fragment.home.HomeAdapter;
 
 import javax.inject.Named;
@@ -25,8 +26,9 @@ public class HomeModule {
 
     @HomeScope
     @Provides
-    static HomeAdapter provideMainAdapter(RequestManager requestManager, @Named("defaultRequestOption") RequestOptions requestOptions) {
-        return new HomeAdapter(requestManager,requestOptions);
+    static HomeAdapter provideMainAdapter(RequestManager requestManager, @Named("defaultRequestOption") RequestOptions requestOptions,
+                                          MainRepository mainRepository) {
+        return new HomeAdapter(requestManager,requestOptions, mainRepository);
     }
 
 }

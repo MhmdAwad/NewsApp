@@ -1,4 +1,4 @@
-package com.mhmdawad.newsapp.utils;
+package com.mhmdawad.newsapp.models.converters;
 
 import androidx.room.TypeConverter;
 

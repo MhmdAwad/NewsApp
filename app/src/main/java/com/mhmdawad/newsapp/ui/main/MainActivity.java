@@ -15,14 +15,13 @@ import com.mhmdawad.newsapp.utils.Constants;
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
-import io.reactivex.disposables.CompositeDisposable;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
     private ActivityMainBinding binding;
 
     @Inject
-    CompositeDisposable disposable;
+    MainRepository mainRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +35,14 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
 
+    private void killProcess(){
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
     @Override
     protected void onDestroy() {
-        binding = null;
-        disposable.clear();
         super.onDestroy();
+        binding = null;
+        killProcess();
     }
 }
