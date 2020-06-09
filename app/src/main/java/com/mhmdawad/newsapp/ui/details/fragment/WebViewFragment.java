@@ -27,6 +27,7 @@ public class WebViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         FragmentWebViewBinding binding =
         DataBindingUtil.inflate(inflater,R.layout.fragment_web_view, container, false);
+        binding.setLifecycleOwner(this);
 
         binding.setArticleLink(articleLink);
         return binding.getRoot();

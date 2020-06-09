@@ -4,7 +4,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Build;
 
+import com.mhmdawad.newsapp.models.ArticlesItem;
 import com.mhmdawad.newsapp.models.Country;
+import com.mhmdawad.newsapp.models.saved.SavedArticle;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +29,11 @@ public class Constants {
     public static final String COUNTRY_PREFS_NAME = "countryName";
     public static final String COUNTRY_PREFS_IMAGE = "countryImage";
 
+
+    public static SavedArticle convertArticleClass(ArticlesItem articlesItem){
+        return new SavedArticle(articlesItem.getPublishedAt(), articlesItem.getAuthor(), articlesItem.getUrlToImage(), articlesItem.getDescription(),
+                articlesItem.getSource(), articlesItem.getTitle(), articlesItem.getUrl(), articlesItem.getContent());
+    }
 
     public static String getTodayDate() {
         SimpleDateFormat day = new SimpleDateFormat("EEEE", Locale.getDefault());

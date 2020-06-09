@@ -25,29 +25,32 @@ public class SavedArticle implements Parcelable {
 	@PrimaryKey(autoGenerate = true)
 	private int uid;
 	@ColumnInfo(name = "publishedAt")
-	@SerializedName("publishedAt")
 	private String publishedAt;
 	@ColumnInfo(name = "author")
-	@SerializedName("author")
 	private String author;
 	@ColumnInfo(name = "urlToImage")
-	@SerializedName("urlToImage")
 	private String urlToImage;
 	@ColumnInfo(name = "description")
-	@SerializedName("description")
 	private String description;
 	@ColumnInfo(name = "source")
-	@SerializedName("source")
 	private Source source;
 	@ColumnInfo(name = "title")
-	@SerializedName("title")
 	private String title;
 	@ColumnInfo(name = "url")
-	@SerializedName("url")
 	private String url;
 	@ColumnInfo(name = "content")
-	@SerializedName("content")
 	private String content;
+
+	public SavedArticle(String publishedAt, String author, String urlToImage, String description, Source source, String title, String url, String content) {
+		this.publishedAt = publishedAt;
+		this.author = author;
+		this.urlToImage = urlToImage;
+		this.description = description;
+		this.source = source;
+		this.title = title;
+		this.url = url;
+		this.content = content;
+	}
 
 	public String getPublishedAt(){
 		return publishedAt;

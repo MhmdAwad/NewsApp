@@ -20,6 +20,6 @@ public interface NewsDao {
     @Query("DELETE From articles_table")
     void deleteArticles();
 
-    @Query("SELECT * From articles_table LIMIT :size OFFSET :offset")
+    @Query("SELECT * From articles_table LIMIT :size OFFSET :offset ")
     Flowable<List<ArticlesItem>> getArticles(int size, int offset);
 }

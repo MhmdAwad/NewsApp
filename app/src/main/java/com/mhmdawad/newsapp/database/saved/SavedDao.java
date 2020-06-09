@@ -6,23 +6,28 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.mhmdawad.newsapp.models.ArticlesItem;
+import com.mhmdawad.newsapp.models.saved.SavedArticle;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 @Dao
 public interface SavedDao {
 
     @Insert
-    void saveArticle(ArticlesItem articlesList);
+    void saveArticle(SavedArticle savedArticle);
 
     @Query("DELETE From saved_table WHERE title =:articleTitle")
     void deleteSavedArticle(String articleTitle);
 
     @Query("SELECT * From saved_table")
-    Flowable<List<ArticlesItem>> getSavedArticles();
+    Single<List<SavedArticle>> getSavedArticles();
 
     @Query("SELECT COUNT(*) From saved_table WHERE title =:name")
-    Flowable<Integer> getSpecificSavedArticles(String name);
+    Integer getSpecificSavedArticles(String name);
+
+    @Query("SELECT COUNT(*) From saved_table WHERE title =:name")
+    Single<Integer> singleSpecificSavedArticles(String name);
 }

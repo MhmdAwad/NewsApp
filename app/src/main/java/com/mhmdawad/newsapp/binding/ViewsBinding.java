@@ -1,5 +1,8 @@
 package com.mhmdawad.newsapp.binding;
 
+import android.graphics.Bitmap;
+import android.util.Log;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,6 +20,9 @@ import java.util.Locale;
 
 public class ViewsBinding {
 
+    private static final String TAG = "ViewsBinding";
+
+
     @BindingAdapter({"loadImage", "reqManager"})
     public static void changeImage(ImageView imageView , String imageUrl,RequestManager requestManager){
         requestManager.load(imageUrl).into(imageView);
@@ -27,11 +33,11 @@ public class ViewsBinding {
     public static void openArticle(WebView webView, String link){
         webView.loadUrl(link);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl(request.getUrl().toString());
-                return false;
+            public Bitmap getDefaultVideoPoster() {
+                return Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
             }
         });
     }

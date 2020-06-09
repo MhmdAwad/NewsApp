@@ -32,6 +32,7 @@ public class DetailsActivity extends DaggerAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
+        binding.setLifecycleOwner(this);
         viewModel = new ViewModelProvider(this, providerFactory).get(DetailsViewModel.class);
         ArticlesItem articlesItem = getIntent().getExtras().getParcelable("article");
 
@@ -45,7 +46,7 @@ public class DetailsActivity extends DaggerAppCompatActivity {
 
     private void observeObservers(String link, String title) {
 
-        viewModel.checkIfArticleExist(title).observe(this, isExist->{
+        viewModel.checkIfArticleExist(title).observe(this, isExist-> {
             if(isExist)
                 binding.saveArticle.setImageResource(R.drawable.ic_bookmark_blue);
             else

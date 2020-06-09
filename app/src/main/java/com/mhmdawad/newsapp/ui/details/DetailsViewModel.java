@@ -45,10 +45,8 @@ public class DetailsViewModel extends ViewModel {
     }
 
     public void saveArticle(ArticlesItem articlesItem){
-        if(detailsRepository.getArticleExist().getValue())
-            detailsRepository.deleteSavedArticle(articlesItem.getTitle());
-        else
-            detailsRepository.saveArticle(articlesItem);
+        Log.d("MMMMMMM", "saveArticle: ");
+        detailsRepository.articleStatus(articlesItem);
     }
 
     public LiveData<Boolean> getShareArticle() {

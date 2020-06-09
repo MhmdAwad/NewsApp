@@ -37,24 +37,24 @@ public class NewsDataSource extends PageKeyedDataSource<Integer, ArticlesItem> {
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ArticlesItem> callback) {
         mutableLiveData.postValue(DataStatus.LOADING);
-        disposable.add(mainRepository.fetchFromDB(10, 0)
+        disposable.add(mainRepository.fetchFromApi(1, params.requestedLoadSize)
                 .subscribe(data -> {
-                            if (data.isEmpty())
+                            if (data.getArticles().isEmpty())
                                 throw new NullPointerException();
 
+                            callback.onResult(data.getArticles(), null, 2);
                             mutableLiveData.postValue(DataStatus.LOADED);
-                            callback.onResult(data, null, 2);
-                        },
-                        throwable -> disposable.add(mainRepository.fetchFromApi(1, params.requestedLoadSize)
-                                .subscribe(data -> {
-                                    if (data.getArticles().isEmpty())
-                                        mutableLiveData.postValue(DataStatus.ERROR);
-                                    else {
-                                        callback.onResult(data.getArticles(), null, 2);
-                                        mutableLiveData.postValue(DataStatus.LOADED);
-                                        mainRepository.saveData(data);
-                                    }
-                                }, error -> Log.d(TAG, "loadInitial: " + error)))
+                            mainRepository.saveData(data);
+                        }, throwable ->
+                                disposable.add(mainRepository.fetchFromDB(10, 0)
+                                        .subscribe(data -> {
+                                            if (data.isEmpty())
+                                                mutableLiveData.postValue(DataStatus.ERROR);
+                                            else {
+                                                mutableLiveData.postValue(DataStatus.LOADED);
+                                                callback.onResult(data, null, 10);
+                                            }
+                                        }, error -> Log.d(TAG, "loadInitial: " + error)))
                 ));
 
     }
@@ -72,10 +72,10 @@ public class NewsDataSource extends PageKeyedDataSource<Integer, ArticlesItem> {
                                     mutableLiveData.postValue(DataStatus.LOADED);
                                     mainRepository.saveData(data);
                                 }, throwable -> disposable.add(
-                                mainRepository.fetchFromDB(10, params.key * params.requestedLoadSize)
+                                mainRepository.fetchFromDB(10, params.key)
                                         .subscribe(data -> {
                                                     Log.d(TAG, "loadMMM: New Room " + data.size());
-                                                    callback.onResult(data, params.key + 1);
+                                                    callback.onResult(data, params.key + 10);
                                                     mutableLiveData.postValue(DataStatus.LOADED);
                                                 },
                                                 throwable1 -> Log.d(TAG, "database  ERROR " + throwable1))

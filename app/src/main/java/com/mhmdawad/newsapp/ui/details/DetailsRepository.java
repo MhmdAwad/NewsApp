@@ -7,11 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.mhmdawad.newsapp.database.saved.SavedDao;
 import com.mhmdawad.newsapp.models.ArticlesItem;
+import com.mhmdawad.newsapp.utils.Constants;
 
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,43 +28,44 @@ public class DetailsRepository {
         articleExist = new MutableLiveData<>();
     }
 
-    void saveArticle(ArticlesItem articlesItem){
-        disposable.add(Single.just(savedDao)
-                .subscribeOn(Schedulers.io())
-                .subscribe(db -> {
-                    Log.d("TAG", "removeDB: SUCCESS" );
-                    db.saveArticle(articlesItem);
-                    checkArticleExist(articlesItem.getTitle());
-                }, throwable -> Log.d("TAG", "removeDB: ERROR" + throwable))
-        );
-    }
 
-    void deleteSavedArticle(String articleTitle){
-        disposable.add(Single.just(savedDao)
-                .subscribeOn(Schedulers.io())
-                .subscribe(db -> {
-                    Log.d("TAG", "removeDB: SUCCESS" );
-                    db.deleteSavedArticle(articleTitle);
-                    checkArticleExist(articleTitle);
-                }, throwable -> Log.d("TAG", "removeDB: ERROR" + throwable))
+    void articleStatus(ArticlesItem articlesItem){
+        disposable.add(
+                getDatabase()
+                .subscribe(db->{
+
+                    if(db.getSpecificSavedArticles(articlesItem.getTitle()) == 1)
+                        db.deleteSavedArticle(articlesItem.getTitle());
+                    else
+                        db.saveArticle(Constants.convertArticleClass(articlesItem));
+
+                    checkArticleExist(articlesItem.getTitle());
+                }, throwable -> Log.d(TAG, "articleStatus: " + throwable))
         );
     }
 
 
     void checkArticleExist(String title) {
-        disposable.add(
-                savedDao.getSpecificSavedArticles(title)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(success -> {
-                            articleExist.postValue(true);
-                                    Log.d(TAG, "checkArticleExist: success" + success);
-                                },
-                                error -> {
-                            articleExist.postValue(false);
-                                    Log.d(TAG, "checkArticleExist: error " + error);
-                                })
+        disposable.add(articleExistSingle(title)
+                .subscribe(success -> {
+                            if (success > 0)
+                                articleExist.postValue(true);
+                            else
+                                articleExist.postValue(false);
+                        },
+                        error -> articleExist.postValue(false))
         );
+    }
+
+    private Single<SavedDao> getDatabase() {
+        return Single.just(savedDao)
+                .subscribeOn(Schedulers.io());
+    }
+
+    private Single<Integer> articleExistSingle(String title) {
+        return savedDao
+                .singleSpecificSavedArticles(title)
+                .subscribeOn(Schedulers.io());
     }
 
     LiveData<Boolean> getArticleExist() {
