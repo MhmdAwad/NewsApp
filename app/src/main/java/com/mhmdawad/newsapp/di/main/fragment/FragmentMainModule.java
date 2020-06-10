@@ -7,9 +7,11 @@ import com.mhmdawad.newsapp.di.main.fragment.home.HomeModule;
 import com.mhmdawad.newsapp.di.main.fragment.home.HomeScope;
 import com.mhmdawad.newsapp.di.main.fragment.saved.SavedModule;
 import com.mhmdawad.newsapp.di.main.fragment.saved.SavedScope;
+import com.mhmdawad.newsapp.di.main.fragment.search.SearchModule;
+import com.mhmdawad.newsapp.di.main.fragment.search.SearchScope;
 import com.mhmdawad.newsapp.ui.main.fragment.category.CategoryFragment;
 import com.mhmdawad.newsapp.ui.main.fragment.saved.SavedFragment;
-import com.mhmdawad.newsapp.ui.main.fragment.SearchFragment;
+import com.mhmdawad.newsapp.ui.main.fragment.search.SearchFragment;
 import com.mhmdawad.newsapp.ui.main.fragment.home.HomeFragment;
 
 import dagger.Module;
@@ -24,7 +26,8 @@ public abstract class FragmentMainModule {
     @ContributesAndroidInjector(modules = HomeModule.class)
     abstract HomeFragment homeFragment();
 
-    @ContributesAndroidInjector
+    @SearchScope
+    @ContributesAndroidInjector(modules = SearchModule.class)
     abstract SearchFragment searchFragment();
 
 

@@ -95,18 +95,20 @@ public class CategoryFragment extends DaggerFragment {
         viewModel.getDataStatus().observe(getViewLifecycleOwner(), dataStatus -> {
             switch (dataStatus) {
                 case LOADED:
-                    binding.swipeRefresh.setRefreshing(false);
-                    binding.getRoot().findViewById(R.id.noInternetContainer).setVisibility(View.GONE);
+                    stopSwipeRefresh();
+                    binding.categoryRV.setVisibility(View.VISIBLE);
+                    binding.noInternetContainer.getRoot().setVisibility(View.GONE);
                     break;
                 case LOADING:
-                    stopSwipeRefresh();
                     binding.swipeRefresh.setRefreshing(true);
-                    binding.getRoot().findViewById(R.id.noInternetContainer).setVisibility(View.GONE);
+                    binding.noInternetContainer.getRoot().setVisibility(View.GONE);
                     break;
                 case ERROR:
-                    binding.swipeRefresh.setRefreshing(false);
-                    binding.getRoot().findViewById(R.id.noInternetContainer).setVisibility(View.VISIBLE);
+                    stopSwipeRefresh();
+                    binding.categoryRV.setVisibility(View.GONE);
+                    binding.noInternetContainer.getRoot().setVisibility(View.VISIBLE);
             }
+
         });
     }
 
@@ -132,8 +134,5 @@ public class CategoryFragment extends DaggerFragment {
         viewModel.resetArticleDetails();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
+
 }

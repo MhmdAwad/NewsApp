@@ -4,7 +4,8 @@ public enum DataStatus {
 
     ERROR,
     LOADING,
-    LOADED
+    LOADED,
+    EMPTY
 
 }
 

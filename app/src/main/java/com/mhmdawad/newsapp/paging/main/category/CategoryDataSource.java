@@ -9,17 +9,14 @@ import androidx.paging.PageKeyedDataSource;
 
 import com.mhmdawad.newsapp.models.ArticlesItem;
 import com.mhmdawad.newsapp.network.main.MainApi;
-import com.mhmdawad.newsapp.ui.main.MainRepository;
 import com.mhmdawad.newsapp.utils.Constants;
 import com.mhmdawad.newsapp.utils.DataStatus;
-
-import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
 public class CategoryDataSource extends PageKeyedDataSource<Integer, ArticlesItem> {
 
-    private static final String TAG = "NewsDataSource";
+    private static final String TAG = "CategoryDataSource";
     private CompositeDisposable disposable;
     private MainApi mainApi;
     private String category;
@@ -29,20 +26,20 @@ public class CategoryDataSource extends PageKeyedDataSource<Integer, ArticlesIte
         return mutableLiveData;
     }
 
-    public CategoryDataSource(CompositeDisposable disposable, MainApi mainApi, String category) {
-        Log.d("MMMMMMMMMMMMMMMMM", "CategoryDataSource: ");
+    CategoryDataSource(CompositeDisposable disposable, MainApi mainApi, String category) {
         this.disposable = disposable;
         this.mainApi = mainApi;
-        this.category = category;
         mutableLiveData = new MutableLiveData<>();
+        if(category.equalsIgnoreCase("world"))
+            category = "general";
+        this.category = category;
     }
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ArticlesItem> callback) {
-        Log.d(TAG, "loadInitial: ");
         mutableLiveData.postValue(DataStatus.LOADING);
         disposable.add(
-                mainApi.getEveryThing(category, 1, params.requestedLoadSize, Constants.API_KEY)
+                mainApi.getCategoryData(category, 1, params.requestedLoadSize, Constants.API_KEY)
                 .subscribe(data -> {
                             if (data.getArticles().isEmpty())
                                 throw new NullPointerException();
@@ -61,7 +58,7 @@ public class CategoryDataSource extends PageKeyedDataSource<Integer, ArticlesIte
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ArticlesItem> callback) {
         disposable.add(
-                mainApi.getEveryThing(category, params.key, params.requestedLoadSize, Constants.API_KEY)
+                mainApi.getCategoryData(category, params.key, params.requestedLoadSize, Constants.API_KEY)
                         .subscribe(data -> {
                                     callback.onResult(data.getArticles(), params.key + 1);
                                     mutableLiveData.postValue(DataStatus.LOADED);

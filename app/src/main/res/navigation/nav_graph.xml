@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_saved" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.mhmdawad.newsapp.ui.main.fragment.SearchFragment"
+        android:name="com.mhmdawad.newsapp.ui.main.fragment.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment

@@ -15,4 +15,7 @@
     <string name="image_not_found">Image Not Found!</string>
     <string name="saved_articles">Saved Articles</string>
     <string name="category_articles">Articles Category</string>
+    <string name="articles_search">Articles Search</string>
+    <string name="type_search_keyword">Type search keyword..</string>
+    <string name="you_didn_t_save_any_article_yet">You didn\'t save any article yet.</string>
 </resources>

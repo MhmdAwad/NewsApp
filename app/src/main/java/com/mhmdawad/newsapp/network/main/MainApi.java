@@ -16,8 +16,15 @@ public interface MainApi {
             @Query("pageSize") int size,
             @Query("apiKey") String apiKey);
 
+    @GET("top-headlines")
+    Flowable<Response> getCategoryData(
+            @Query("category") String query,
+            @Query("page") int page,
+            @Query("pageSize") int size,
+            @Query("apiKey") String apiKey);
+
     @GET("everything")
-    Flowable<Response> getEveryThing(
+    Flowable<Response> getEverythingSearch(
             @Query("q") String query,
             @Query("page") int page,
             @Query("pageSize") int size,

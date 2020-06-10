@@ -62,7 +62,16 @@ public class SavedFragment extends DaggerFragment {
         binding.savedRV.setAdapter(adapter);
     }
     private void observeObservers(){
-        viewModel.observeSavedArticles().observe(getViewLifecycleOwner(), data-> adapter.setAdapterList(data));
+        viewModel.observeSavedArticles().observe(getViewLifecycleOwner(), data-> {
+            if(data.isEmpty()){
+                binding.container.setVisibility(View.VISIBLE);
+                binding.savedRV.setVisibility(View.GONE);
+            }else{
+                binding.container.setVisibility(View.GONE);
+                binding.savedRV.setVisibility(View.VISIBLE);
+                adapter.setAdapterList(data);
+            }
+        });
         viewModel.observeArticleDetails().observe(getViewLifecycleOwner(), this::openArticleDetails);
     }
 

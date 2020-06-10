@@ -100,6 +100,7 @@ public class HomeFragment extends DaggerFragment {
     private void stopSwipeRefresh(){
         binding.swipeRefresh.setRefreshing(false);
     }
+
     private void initRefreshListeners(){
         binding.swipeRefresh.setOnRefreshListener(() -> viewModel.refreshData());
         binding.noInternetContainer.tryAgain.setOnClickListener(v -> viewModel.refreshData());
@@ -123,18 +124,19 @@ public class HomeFragment extends DaggerFragment {
             if (articlesItems != null) {
                 switch (articlesItems) {
                     case ERROR:
+                        stopSwipeRefresh();
                         stopShimmer();
                         binding.homeRV.setVisibility(View.INVISIBLE);
-                        binding.getRoot().findViewById(R.id.noInternetContainer).setVisibility(View.VISIBLE);
+                        binding.noInternetContainer.getRoot().setVisibility(View.VISIBLE);
                         break;
                     case LOADING:
-
                         binding.shimmerLayout.startShimmer();
                         break;
                     case LOADED:
+                        stopSwipeRefresh();
                         stopShimmer();
                         binding.homeRV.setVisibility(View.VISIBLE);
-                        binding.getRoot().findViewById(R.id.noInternetContainer).setVisibility(View.GONE);
+                        binding.noInternetContainer.getRoot().setVisibility(View.GONE);
                 }
 
             }
