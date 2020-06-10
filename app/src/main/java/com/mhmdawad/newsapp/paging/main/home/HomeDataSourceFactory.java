@@ -1,4 +1,4 @@
-package com.mhmdawad.newsapp.paging;
+package com.mhmdawad.newsapp.paging.main.home;
 
 
 import androidx.lifecycle.MutableLiveData;
@@ -11,14 +11,14 @@ import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class NewsDataSourceFactory extends DataSource.Factory {
+public class HomeDataSourceFactory extends DataSource.Factory {
 
     private MainRepository mainRepository;
     private CompositeDisposable disposable;
-    private MutableLiveData<NewsDataSource> mutableLiveData;
+    private MutableLiveData<HomeDataSource> mutableLiveData;
 
     @Inject
-    public NewsDataSourceFactory(MainRepository mainRepository, CompositeDisposable disposable) {
+    public HomeDataSourceFactory(MainRepository mainRepository, CompositeDisposable disposable) {
         this.mainRepository = mainRepository;
         this.disposable = disposable;
         mutableLiveData = new MutableLiveData<>();
@@ -26,12 +26,12 @@ public class NewsDataSourceFactory extends DataSource.Factory {
 
     @Override
     public DataSource<Integer ,ArticlesItem> create() {
-        NewsDataSource dataSource = new NewsDataSource(disposable, mainRepository);
+        HomeDataSource dataSource = new HomeDataSource(disposable, mainRepository);
         mutableLiveData.postValue(dataSource);
         return dataSource;
     }
 
-    public MutableLiveData<NewsDataSource> getMutableLiveData() {
+    public MutableLiveData<HomeDataSource> getMutableLiveData() {
         return mutableLiveData;
     }
 }

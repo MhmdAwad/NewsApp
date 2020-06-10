@@ -6,8 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.mhmdawad.newsapp.database.saved.SavedDao;
-import com.mhmdawad.newsapp.models.ArticlesItem;
-import com.mhmdawad.newsapp.utils.Constants;
+import com.mhmdawad.newsapp.models.saved.SavedArticle;
 
 import javax.inject.Inject;
 
@@ -29,17 +28,17 @@ public class DetailsRepository {
     }
 
 
-    void articleStatus(ArticlesItem articlesItem){
+    void articleStatus(SavedArticle savedArticle){
         disposable.add(
                 getDatabase()
                 .subscribe(db->{
 
-                    if(db.getSpecificSavedArticles(articlesItem.getTitle()) == 1)
-                        db.deleteSavedArticle(articlesItem.getTitle());
+                    if(db.getSpecificSavedArticles(savedArticle.getTitle()) == 1)
+                        db.deleteSavedArticle(savedArticle.getTitle());
                     else
-                        db.saveArticle(Constants.convertArticleClass(articlesItem));
+                        db.saveArticle(savedArticle);
 
-                    checkArticleExist(articlesItem.getTitle());
+                    checkArticleExist(savedArticle.getTitle());
                 }, throwable -> Log.d(TAG, "articleStatus: " + throwable))
         );
     }

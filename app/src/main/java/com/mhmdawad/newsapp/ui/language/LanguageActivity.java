@@ -6,14 +6,12 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.mhmdawad.newsapp.R;
 import com.mhmdawad.newsapp.databinding.ActivityLanguageBinding;
-import com.mhmdawad.newsapp.ui.main.MainRepository;
-import com.mhmdawad.newsapp.viewModels.ViewModelProviderFactory;
+import com.mhmdawad.newsapp.ViewModelProviderFactory;
 
 
 import javax.inject.Inject;

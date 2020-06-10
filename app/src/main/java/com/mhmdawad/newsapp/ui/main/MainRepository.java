@@ -30,7 +30,6 @@ public class MainRepository {
     private NewsDao newsDao;
     private SharedPreferences preferences;
     private MutableLiveData<String> countryImage ;
-    private MutableLiveData<ArticlesItem> articleDetails;
 
     @Inject
     public MainRepository(MainApi mainApi, CompositeDisposable disposable, NewsDao newsDao,
@@ -40,12 +39,8 @@ public class MainRepository {
         this.newsDao = newsDao;
         this.preferences = preferences;
         countryImage = new MutableLiveData<>();
-        articleDetails = new MutableLiveData<>();
     }
 
-    public void openArticleDetails(ArticlesItem articlesItem){
-        articleDetails.setValue(articlesItem);
-    }
 
     private String getSelectedCountryName() {
         try {
@@ -55,7 +50,6 @@ public class MainRepository {
             return "us";
         }
     }
-
 
 
     public void removeDB() {
@@ -81,13 +75,8 @@ public class MainRepository {
 
     public Flowable<Response> fetchFromApi(int page, int size) {
         return mainApi.getTopHead(getSelectedCountryName(), page, size, Constants.API_KEY)
-                .timeout(4, TimeUnit.SECONDS)
+                .timeout(3, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io());
-    }
-
-
-    public MutableLiveData<ArticlesItem> getArticleDetails() {
-        return articleDetails;
     }
 
 

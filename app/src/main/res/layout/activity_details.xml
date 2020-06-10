@@ -7,7 +7,11 @@
 
         <variable
             name="article"
-            type="com.mhmdawad.newsapp.models.ArticlesItem" />
+            type="com.mhmdawad.newsapp.models.saved.SavedArticle" />
+
+        <variable
+            name="source"
+            type="com.mhmdawad.newsapp.models.Source" />
 
         <variable
             name="reqManager"
@@ -29,11 +33,11 @@
             android:id="@+id/imageViewContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:elevation="10dp"
-            app:cardCornerRadius="20dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            app:cardCornerRadius="20dp"
+            app:elevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/articleDate">
@@ -42,9 +46,8 @@
                 loadImage="@{article.urlToImage}"
                 reqManager="@{reqManager}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="250dp"
-                android:scaleType="centerCrop"/>
+                android:layout_height="250dp"
+                android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -87,7 +90,8 @@
                     android:onClick="@{()-> viewModel.openArticleWebView() }"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:text="@{article.description + `.... More`}"
+                    articleDescription="@{article.description}"
+                    articleTitle="@{article.title}"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/saveArticle"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +140,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
-                    android:text='@{article.author.equals("")? article.source : article.author}'
+                    authorName="@{article.author}"
+                    sourceName="@{source.name}"
                     app:layout_constraintStart_toEndOf="@+id/imageView5"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -173,10 +178,10 @@
 
         <TextView
             android:id="@+id/articleDate"
+            dateFormat="@{article.publishedAt}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            dateFormat="@{article.publishedAt}"
             app:layout_constraintEnd_toEndOf="@+id/articleTitle"
             app:layout_constraintStart_toStartOf="@+id/articleTitle"
             app:layout_constraintTop_toBottomOf="@+id/articleTitle" />

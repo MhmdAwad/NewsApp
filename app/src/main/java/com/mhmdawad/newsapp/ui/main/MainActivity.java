@@ -18,20 +18,19 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
-    private ActivityMainBinding binding;
-
     @Inject
     MainRepository mainRepository;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
         binding.setDate(Constants.getTodayDate());
 
         NavController navController = Navigation.findNavController(this, R.id.navHostFragment);
         NavigationUI.setupWithNavController(binding.mainBottomNav, navController);
+
     }
 
 
@@ -42,7 +41,6 @@ public class MainActivity extends DaggerAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        binding = null;
         killProcess();
     }
 }

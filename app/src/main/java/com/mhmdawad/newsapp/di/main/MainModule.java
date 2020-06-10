@@ -8,8 +8,8 @@ import androidx.paging.PagedList;
 import com.bumptech.glide.request.RequestOptions;
 import com.mhmdawad.newsapp.database.NewsDao;
 import com.mhmdawad.newsapp.network.main.MainApi;
-import com.mhmdawad.newsapp.paging.NewsDataSource;
-import com.mhmdawad.newsapp.paging.NewsDataSourceFactory;
+import com.mhmdawad.newsapp.paging.main.home.HomeDataSource;
+import com.mhmdawad.newsapp.paging.main.home.HomeDataSourceFactory;
 import com.mhmdawad.newsapp.ui.main.MainRepository;
 
 import javax.inject.Named;
@@ -20,18 +20,6 @@ import io.reactivex.disposables.CompositeDisposable;
 
 @Module
 public class MainModule {
-
-    @Provides
-    @MainScope
-    static NewsDataSource provideItemDataSource(CompositeDisposable disposable, MainRepository mainRepository) {
-        return new NewsDataSource(disposable, mainRepository);
-    }
-
-    @Provides
-    @MainScope
-    static NewsDataSourceFactory provideDataSourceFactory(CompositeDisposable disposable , MainRepository repository) {
-        return new NewsDataSourceFactory(repository, disposable);
-    }
 
     @Provides
     @MainScope

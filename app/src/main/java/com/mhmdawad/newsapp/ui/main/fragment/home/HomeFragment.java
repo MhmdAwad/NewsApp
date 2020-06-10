@@ -27,7 +27,7 @@ import com.mhmdawad.newsapp.models.ArticlesItem;
 import com.mhmdawad.newsapp.ui.language.LanguageActivity;
 import com.mhmdawad.newsapp.ui.details.DetailsActivity;
 import com.mhmdawad.newsapp.utils.Constants;
-import com.mhmdawad.newsapp.viewModels.ViewModelProviderFactory;
+import com.mhmdawad.newsapp.ViewModelProviderFactory;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,7 +47,7 @@ public class HomeFragment extends DaggerFragment {
     @Inject
     LinearLayoutManager layoutManager;
     @Inject
-    HomeAdapter adapter;
+    HomeAdapter homeAdapter;
     @Named("circleRequestOption")
     @Inject
     RequestOptions requestOptions;
@@ -60,7 +60,7 @@ public class HomeFragment extends DaggerFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this, providerFactory).get(HomeViewModel.class);
-        viewModel.fetchData();
+        viewModel.fetchTopNewsData();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class HomeFragment extends DaggerFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initRecyclerView();
+        initRecyclersView();
         initRefreshListeners();
         observeObservers();
         changeFlag();
@@ -90,18 +90,19 @@ public class HomeFragment extends DaggerFragment {
         });
     }
 
-    private void initRefreshListeners(){
-        binding.swipeRefresh.setOnRefreshListener(() -> viewModel.refreshData());
-        binding.tryAgain.setOnClickListener(v -> viewModel.refreshData());
-    }
 
-    private void initRecyclerView() {
-        binding.mainRV.setLayoutManager(layoutManager);
-        binding.mainRV.setAdapter(adapter);
+    private void initRecyclersView() {
+        homeAdapter.setViewModel(viewModel);
+        binding.homeRV.setLayoutManager(layoutManager);
+        binding.homeRV.setAdapter(homeAdapter);
     }
 
     private void stopSwipeRefresh(){
         binding.swipeRefresh.setRefreshing(false);
+    }
+    private void initRefreshListeners(){
+        binding.swipeRefresh.setOnRefreshListener(() -> viewModel.refreshData());
+        binding.noInternetContainer.tryAgain.setOnClickListener(v -> viewModel.refreshData());
     }
 
     private void stopShimmer(){
@@ -113,8 +114,8 @@ public class HomeFragment extends DaggerFragment {
 
         viewModel.getItemPagedList().observe(getViewLifecycleOwner(), articlesItems -> {
             if(articlesItems != null) {
-                adapter.submitList(articlesItems);
-                binding.mainRV.scrollToPosition(0);
+                homeAdapter.submitList(articlesItems);
+                binding.homeRV.scrollToPosition(0);
             }
         });
 
@@ -122,33 +123,34 @@ public class HomeFragment extends DaggerFragment {
             if (articlesItems != null) {
                 switch (articlesItems) {
                     case ERROR:
-                        stopSwipeRefresh();
                         stopShimmer();
-                        binding.mainRV.setVisibility(View.INVISIBLE);
-                        binding.noInternetContainer.setVisibility(View.VISIBLE);
+                        binding.homeRV.setVisibility(View.INVISIBLE);
+                        binding.getRoot().findViewById(R.id.noInternetContainer).setVisibility(View.VISIBLE);
                         break;
                     case LOADING:
+
                         binding.shimmerLayout.startShimmer();
                         break;
                     case LOADED:
-                        stopSwipeRefresh();
                         stopShimmer();
-                        binding.mainRV.setVisibility(View.VISIBLE);
-                        binding.noInternetContainer.setVisibility(View.GONE);
+                        binding.homeRV.setVisibility(View.VISIBLE);
+                        binding.getRoot().findViewById(R.id.noInternetContainer).setVisibility(View.GONE);
                 }
+
             }
         });
 
         viewModel.observeArticleDetails().observe(getViewLifecycleOwner(), articlesItem -> {
             if(articlesItem != null)
-                openArticleDetails(articlesItem);
+                openArticleDetails( articlesItem);
         });
-
     }
+
 
     private void openArticleDetails(ArticlesItem articlesItem) {
         Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra("article", articlesItem);
+        intent.putExtra("article", Constants.convertArticleClass(articlesItem));
+        intent.putExtra("source", articlesItem.getSource());
         startActivity(intent);
     }
 
@@ -171,12 +173,15 @@ public class HomeFragment extends DaggerFragment {
         }
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding.mainRV.setLayoutManager(null);
-        binding.mainRV.setAdapter(null);
-        adapter.submitList(null);
+        binding.homeRV.setLayoutManager(null);
+        binding.homeRV.setAdapter(null);
+        homeAdapter.submitList(null);
+        viewModel.resetArticleDetails();
         binding = null;
     }
+
 }

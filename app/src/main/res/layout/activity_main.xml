@@ -22,10 +22,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="@{date}"
-            app:layout_constraintBottom_toBottomOf="@+id/flagImage"
-            app:layout_constraintEnd_toStartOf="@+id/flagImage"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/flagImage" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -48,7 +47,7 @@
             app:layout_constraintBottom_toTopOf="@+id/mainBottomNav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/flagImage"
+            app:layout_constraintTop_toBottomOf="@+id/todayDate"
             app:navGraph="@navigation/nav_graph" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

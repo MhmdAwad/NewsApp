@@ -13,4 +13,6 @@
     <string name="try_again">Try Again</string>
     <string name="flagImage">flagImage</string>
     <string name="image_not_found">Image Not Found!</string>
+    <string name="saved_articles">Saved Articles</string>
+    <string name="category_articles">Articles Category</string>
 </resources>

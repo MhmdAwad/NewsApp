@@ -174,6 +174,4 @@ public class ArticlesItem implements Parcelable {
 		dest.writeString(content);
 	}
 
-
-
 }

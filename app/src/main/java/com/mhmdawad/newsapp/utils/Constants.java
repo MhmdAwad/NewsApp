@@ -3,20 +3,19 @@ package com.mhmdawad.newsapp.utils;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Build;
+import android.util.Pair;
 
+import com.mhmdawad.newsapp.R;
 import com.mhmdawad.newsapp.models.ArticlesItem;
 import com.mhmdawad.newsapp.models.Country;
 import com.mhmdawad.newsapp.models.saved.SavedArticle;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 public class Constants {
 
@@ -58,6 +57,20 @@ public class Constants {
         }
     }
 
+    public static List<Pair<String, Integer>> getCategoryList(){
+        List<Pair<String, Integer>> category = new ArrayList<>();
+        category.add(new Pair<>("World",R.drawable.ic_world));
+        category.add(new Pair<>("Technology",R.drawable.ic_technology));
+        category.add(new Pair<>("Business",R.drawable.ic_business));
+        category.add(new Pair<>("Sports",R.drawable.ic_sport));
+        category.add(new Pair<>("Entertainment",R.drawable.ic_entertainment));
+        category.add(new Pair<>("Health", R.drawable.ic_health));
+        category.add(new Pair<>("Science",R.drawable.ic_science));
+
+
+
+        return category;
+    }
     public static List<Country> getCountries() {
         List<Country> countryList = new ArrayList<>();
         countryList.add(new Country("no", "Norway", "https://cdn.countryflags.com/thumbs/norway/flag-400.png"));

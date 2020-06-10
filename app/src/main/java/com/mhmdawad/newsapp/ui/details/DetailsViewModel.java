@@ -6,8 +6,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.mhmdawad.newsapp.database.saved.SavedDao;
 import com.mhmdawad.newsapp.models.ArticlesItem;
+import com.mhmdawad.newsapp.models.saved.SavedArticle;
+import com.mhmdawad.newsapp.utils.Constants;
 
 import javax.inject.Inject;
 
@@ -44,9 +45,8 @@ public class DetailsViewModel extends ViewModel {
         return detailsRepository.getArticleExist();
     }
 
-    public void saveArticle(ArticlesItem articlesItem){
-        Log.d("MMMMMMM", "saveArticle: ");
-        detailsRepository.articleStatus(articlesItem);
+    public void saveArticle(SavedArticle savedArticle){
+        detailsRepository.articleStatus(savedArticle);
     }
 
     public LiveData<Boolean> getShareArticle() {

@@ -2,7 +2,7 @@ package com.mhmdawad.newsapp.di;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.mhmdawad.newsapp.viewModels.ViewModelProviderFactory;
+import com.mhmdawad.newsapp.ViewModelProviderFactory;
 
 import dagger.Binds;
 import dagger.Module;

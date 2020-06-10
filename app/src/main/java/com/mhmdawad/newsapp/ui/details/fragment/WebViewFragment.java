@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class WebViewFragment extends Fragment {
 
     private String articleLink;
+
     public WebViewFragment(String articleLink) {
         this.articleLink = articleLink;
     }
@@ -26,10 +27,15 @@ public class WebViewFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentWebViewBinding binding =
-        DataBindingUtil.inflate(inflater,R.layout.fragment_web_view, container, false);
+                DataBindingUtil.inflate(inflater, R.layout.fragment_web_view, container, false);
         binding.setLifecycleOwner(this);
 
         binding.setArticleLink(articleLink);
+
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            binding.webView.reload();
+            binding.swipeRefresh.setRefreshing(false);
+        });
         return binding.getRoot();
     }
 }

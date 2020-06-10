@@ -28,15 +28,16 @@ public class SplashActivity extends DaggerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_splash);
-        disposable.add(
-                Single.timer(3, TimeUnit.SECONDS)
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(sub -> {
-                            startActivity(new Intent(this.getApplicationContext(), MainActivity.class));
-                            finish();
-                        })
-        );
+        startActivity(new Intent(this.getApplicationContext(), MainActivity.class));
+        finish();
+//        disposable.add(
+//                Single.timer(3, TimeUnit.SECONDS)
+//                        .subscribeOn(Schedulers.io())
+//                        .subscribe(sub -> {
+//
+////                            finish();
+//                        })
+//        );
     }
 
 }

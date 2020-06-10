@@ -12,10 +12,6 @@ import dagger.multibindings.IntoMap;
 @Module
 public abstract class ActivityViewModelModule {
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(LanguageViewModel.class)
-    abstract ViewModel bindLanguageViewModel(LanguageViewModel homeViewModel);
 
     @Binds
     @IntoMap

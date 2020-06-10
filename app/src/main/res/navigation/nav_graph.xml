@@ -11,12 +11,12 @@
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.mhmdawad.newsapp.ui.main.fragment.CategoryFragment"
+        android:name="com.mhmdawad.newsapp.ui.main.fragment.category.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" />
     <fragment
         android:id="@+id/savedFragment"
-        android:name="com.mhmdawad.newsapp.ui.main.fragment.SavedFragment"
+        android:name="com.mhmdawad.newsapp.ui.main.fragment.saved.SavedFragment"
         android:label="fragment_saved"
         tools:layout="@layout/fragment_saved" />
     <fragment

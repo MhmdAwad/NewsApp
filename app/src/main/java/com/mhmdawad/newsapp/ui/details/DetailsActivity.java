@@ -5,13 +5,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.bumptech.glide.RequestManager;
 import com.mhmdawad.newsapp.R;
 import com.mhmdawad.newsapp.databinding.ActivityDetailsBinding;
 import com.mhmdawad.newsapp.models.ArticlesItem;
+import com.mhmdawad.newsapp.models.Source;
+import com.mhmdawad.newsapp.models.saved.SavedArticle;
 import com.mhmdawad.newsapp.ui.details.fragment.WebViewFragment;
-import com.mhmdawad.newsapp.viewModels.ViewModelProviderFactory;
+import com.mhmdawad.newsapp.ViewModelProviderFactory;
 
 import javax.inject.Inject;
 
@@ -34,13 +37,16 @@ public class DetailsActivity extends DaggerAppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
         binding.setLifecycleOwner(this);
         viewModel = new ViewModelProvider(this, providerFactory).get(DetailsViewModel.class);
-        ArticlesItem articlesItem = getIntent().getExtras().getParcelable("article");
+        SavedArticle articlesItem = getIntent().getExtras().getParcelable("article");
+        Source source = getIntent().getExtras().getParcelable("source");
 
         binding.setViewModel(viewModel);
         binding.setReqManager(requestManager);
         binding.setArticle(articlesItem);
+        binding.setSource(source);
         viewModel.checkIfArticleExist(articlesItem.getTitle());
         observeObservers(articlesItem.getUrl(), articlesItem.getTitle());
+
 
     }
 

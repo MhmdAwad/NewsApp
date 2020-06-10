@@ -1,4 +1,4 @@
-package com.mhmdawad.newsapp.paging;
+package com.mhmdawad.newsapp.paging.main.home;
 
 import android.util.Log;
 
@@ -16,7 +16,7 @@ import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class NewsDataSource extends PageKeyedDataSource<Integer, ArticlesItem> {
+public class HomeDataSource extends PageKeyedDataSource<Integer, ArticlesItem> {
 
     private static final String TAG = "NewsDataSource";
     private CompositeDisposable disposable;
@@ -27,8 +27,7 @@ public class NewsDataSource extends PageKeyedDataSource<Integer, ArticlesItem> {
         return mutableLiveData;
     }
 
-    @Inject
-    public NewsDataSource(CompositeDisposable disposable, MainRepository mainRepository) {
+    public HomeDataSource(CompositeDisposable disposable, MainRepository mainRepository) {
         this.disposable = disposable;
         this.mainRepository = mainRepository;
         mutableLiveData = new MutableLiveData<>();
