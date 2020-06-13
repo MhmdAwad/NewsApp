@@ -3,8 +3,8 @@
 
     <item android:drawable="@color/white" />
 
-    <item android:drawable="@drawable/ic_news" android:width="300dp"
-        android:height="300dp"
+    <item android:drawable="@drawable/ic_news" android:width="200dp"
+        android:height="200dp"
         android:gravity="center">
     </item>
 

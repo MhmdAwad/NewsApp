@@ -23,6 +23,10 @@
 
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,8 +40,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             app:cardCornerRadius="20dp"
             app:elevation="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardView4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/articleDate">
@@ -46,11 +52,12 @@
                 loadImage="@{article.urlToImage}"
                 reqManager="@{reqManager}"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -62,8 +69,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewContainer"
-            app:layout_constraintVertical_bias="0.25">
+            app:layout_constraintTop_toBottomOf="@+id/imageViewContainer">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -81,6 +87,8 @@
 
                 <TextView
                     android:id="@+id/articleDescription"
+                    articleDescription="@{article.description}"
+                    articleTitle="@{article.title}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -90,8 +98,6 @@
                     android:onClick="@{()-> viewModel.openArticleWebView() }"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    articleDescription="@{article.description}"
-                    articleTitle="@{article.title}"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/saveArticle"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,12 +142,12 @@
 
                 <TextView
                     android:id="@+id/articleAuthor"
+                    authorName="@{article.author}"
+                    sourceName="@{source.name}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
-                    authorName="@{article.author}"
-                    sourceName="@{source.name}"
                     app:layout_constraintStart_toEndOf="@+id/imageView5"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -186,5 +192,5 @@
             app:layout_constraintStart_toStartOf="@+id/articleTitle"
             app:layout_constraintTop_toBottomOf="@+id/articleTitle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </ScrollView>
 </layout>

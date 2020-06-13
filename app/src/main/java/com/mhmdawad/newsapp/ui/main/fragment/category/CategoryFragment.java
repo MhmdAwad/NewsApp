@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
@@ -126,6 +127,14 @@ public class CategoryFragment extends DaggerFragment {
         binding.categoryItemsRV.setAdapter(categoryItemAdapter);
         categoryItemAdapter.setViewModel(viewModel);
         mainAdapter.setViewModel(viewModel);
+
+        binding.categoryRV.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if(scrollY > oldScrollY)
+                binding.categoryItemsRV.animate().translationY(-1000).setInterpolator(new AccelerateInterpolator()).start();
+            else if(scrollY < oldScrollY || scrollY == 0)
+                binding.categoryItemsRV.animate().translationY(0).setInterpolator(new AccelerateInterpolator()).start();
+        });
+
     }
 
     @Override

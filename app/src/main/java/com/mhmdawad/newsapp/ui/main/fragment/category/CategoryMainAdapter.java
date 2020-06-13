@@ -59,6 +59,13 @@ public class CategoryMainAdapter extends PagedListAdapter<ArticlesItem, Category
             binding.setRequestManage(requestManager.setDefaultRequestOptions(requestOptions));
             binding.setViewModel(categoryViewModel);
             binding.setPosition(getAdapterPosition());
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)binding.cardView.getLayoutParams();
+            if(getAdapterPosition() == 0)
+                params.setMargins(8, 144, 8, 8);
+            else
+                params.setMargins(8, 4, 8, 8);
+
+            binding.cardView.setLayoutParams(params);
             binding.executePendingBindings();
         }
 
