@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.mhmdawad.newsapp.ui.main.fragment.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.mhmdawad.newsapp.ui.main.fragment.category.CategoryFragment"
