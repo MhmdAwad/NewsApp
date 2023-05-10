@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/ic_flare"
+                android:src="@drawable/ic_fire"
                 app:layout_constraintBottom_toBottomOf="@+id/textView2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView2" />

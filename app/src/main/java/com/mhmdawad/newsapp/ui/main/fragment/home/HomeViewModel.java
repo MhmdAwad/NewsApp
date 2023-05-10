@@ -38,7 +38,7 @@ public class HomeViewModel extends ViewModel {
         this.articleDetails = new MutableLiveData<>();
     }
 
-    void fetchTopNewsData(){
+    void fetchTopNewsData() {
         itemPagedList = new LivePagedListBuilder(homeFactory, config).build();
         newsData = Transformations.switchMap(homeFactory.getMutableLiveData(), HomeDataSource::getMutableLiveData);
     }
@@ -49,15 +49,15 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
-    public void openArticleDetails(ArticlesItem articlesItem){
+    public void openArticleDetails(ArticlesItem articlesItem) {
         articleDetails.setValue(articlesItem);
     }
 
-    LiveData<ArticlesItem> observeArticleDetails(){
+    LiveData<ArticlesItem> observeArticleDetails() {
         return articleDetails;
     }
 
-     void resetArticleDetails(){
+    void resetArticleDetails() {
         articleDetails.setValue(null);
     }
 

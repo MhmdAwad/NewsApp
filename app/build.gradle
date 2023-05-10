@@ -1,13 +1,14 @@
-apply plugin: 'com.android.application'
+plugins{
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.mhmdawad.newsapp"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -84,7 +85,7 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
 
     // Navigation Component
-    def nav_version = "2.3.0-beta01"
+    def nav_version = "2.5.3"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
